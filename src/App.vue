@@ -2,6 +2,7 @@
   <div class="container">
     <global-header :user="currentUser" />
     <column-list :list="columnList" />
+    <router-view></router-view>
   </div>
 </template>
 
