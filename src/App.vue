@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <global-header :user="currentUser"/>
+    <global-header :user="currentUser" />
     <column-list :list="columnList" />
   </div>
 </template>
@@ -47,7 +47,7 @@ export default defineComponent({
   name: "App",
   components: {
     ColumnList,
-    GlobalHeader
+    GlobalHeader,
   },
   setup() {
     return {
