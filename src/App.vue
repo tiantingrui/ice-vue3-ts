@@ -7,10 +7,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, computed } from "vue";
 import "bootstrap/dist/css/bootstrap.min.css";
 import ColumnList, { ColumnProps } from "./components/ColumnList.vue";
-import GlobalHeader, { UserProps } from "./components/GlobalHeader.vue";
+import GlobalHeader from "./components/GlobalHeader.vue";
+import {useStore} from 'vuex'
+
 const testData: ColumnProps[] = [
   {
     id: 1,
@@ -39,10 +41,6 @@ const testData: ColumnProps[] = [
       "http://vue-maker.oss-cn-hangzhou.aliyuncs.com/vue-marker/5ee22dd58b3c4520912b9470.jpg?x-oss-process=image/resize,m_pad,h_100,w_100",
   },
 ];
-const currentUser: UserProps = {
-  isLogin: true,
-  name: "terry"
-}
 
 export default defineComponent({
   name: "App",
@@ -51,6 +49,8 @@ export default defineComponent({
     GlobalHeader,
   },
   setup() {
+    const store = useStore()
+    const currentUser = computed(() => store.state.user)
     return {
       columnList: testData,
       currentUser
