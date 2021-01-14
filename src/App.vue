@@ -2,18 +2,18 @@
   <div class="container">
     <global-header :user="currentUser" />
     <h1>{{ error.message }}</h1>
-    <message v-if="error.status" type="error" :message="error.message"></message>
+    <!-- <message v-if="error.status" type="error" :message="error.message"></message> -->
     <column-list :list="columnList" />
     <router-view></router-view>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from "vue";
+import { defineComponent, computed, watch } from "vue";
 import "bootstrap/dist/css/bootstrap.min.css";
 import ColumnList, { ColumnProps } from "./components/ColumnList.vue";
 import GlobalHeader from "./components/GlobalHeader.vue";
-import Message from './components/Message.vue'
+import createMessage from './components/createMessage'
 import {useStore} from 'vuex'
 
 const testData: ColumnProps[] = [
@@ -50,12 +50,17 @@ export default defineComponent({
   components: {
     ColumnList,
     GlobalHeader,
-    Message
   },
   setup() {
     const store = useStore()
     const currentUser = computed(() => store.state.user)
     const error = computed(() => store.state.error)
+    watch(() => error.value.status, () => {
+      const {status, message} = error.value
+      if (status && message) {
+        createMessage(message, 'error')
+      }
+    })
     return {
       columnList: testData,
       currentUser,

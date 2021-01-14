@@ -4,6 +4,13 @@ import axios from 'axios'
 
 axios.defaults.baseURL = ""
 
+axios.interceptors.request.use(config => {
+    store.commit('setLoading', true)
+    // 记得每次发请求，重置error , 防止 message 组件失效
+    store.commit('setError', {status: false, message: ''})
+    return config
+})
+
 
 axios.interceptors.response.use(config => {
     setTimeout(() => {
