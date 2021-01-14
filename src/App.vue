@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <global-header :user="currentUser" />
+    <h1>{{ error.message }}</h1>
     <column-list :list="columnList" />
     <router-view></router-view>
   </div>
@@ -51,9 +52,11 @@ export default defineComponent({
   setup() {
     const store = useStore()
     const currentUser = computed(() => store.state.user)
+    const error = computed(() => store.state.error)
     return {
       columnList: testData,
-      currentUser
+      currentUser,
+      error
     };
   },
 });

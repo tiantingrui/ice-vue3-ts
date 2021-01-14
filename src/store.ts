@@ -32,7 +32,13 @@ export interface PostProps {
     columnId: number;
 }
 
+export interface GlobalErrorProps {
+    status: boolean;
+    message?: string;
+}
+
 export interface GlobalDataProps {
+    error: GlobalErrorProps;
     columns: ColumnProps[];
     posts: PostProps[];
     user: UserProps;
@@ -45,6 +51,7 @@ const getAndCommit = async (url: string, mutationName: string, commit: Commit) =
 
 const store = createStore<GlobalDataProps>({
     state: {
+        error: {status: false},
         columns: [],
         posts: testPosts,
         user: {
@@ -67,6 +74,9 @@ const store = createStore<GlobalDataProps>({
         fetchPosts(state, rawData) {
             state.columns = rawData.data.list
         },
+        setError(state, e: GlobalErrorProps) {
+            state.error = e
+        }
     },
     actions: {
         async fetchColumns(context) {
